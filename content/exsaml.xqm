@@ -340,9 +340,10 @@ declare %private function exsaml:validate-saml-response($cid as xs:string, $resp
         (:            <exsaml:funcret res="-4" msg="failed to verify response signature" cid="{$cid}"/> :)
 
         (: verify Response/@InResponseTo is present in the SAML response :)
-        else if (fn:exists($reqid) and not(exsaml:check-authnreqid($cid, $reqid)))
-        then
-            <exsaml:funcret res="-7" msg="did not send this SAML request" data="{$reqid}"/>
+        (: COMMENTED OUT because the check is destructive and will fail later verification :)
+        (: else if (fn:exists($reqid) and not(exsaml:check-authnreqid($cid, $reqid))) :)
+        (: then :)
+        (:    <exsaml:funcret res="-7" msg="did not send this SAML request" data="{$reqid}"/> :)
 
         (: must contain at least one assertion :)
         else if (empty($as))
