@@ -108,6 +108,19 @@ to send these attributes.
 The `<fake-idp>` element may be used for debugging if no "real" IDP is 
 available yet. This element should be empty for production use.
 
+You can set all config values inline. Instead of hardcoding, variables can be provided as Java opts.
+
+Example:
+```
+<sp entity="${SAML_SP_ENTITY}" endpoint="${SAML_SP_ENDPOINT}" assertion-consumer-service-index="0" fallback-relaystate="${SAML_SP_FALLBACK}"/>
+```
+
+This can be populated like this:
+
+```
+"JAVA_OPTS=-DSAML_SP_ENTITY=<...> -DSAML_SP_ENDPOINT=<...> -DSAML_SP_FALLBACK=<...>
+```
+
 ### Set Password for the `exsaml` DB User
 
 During installation of the existdb-saml package, a special DB user `exsaml`

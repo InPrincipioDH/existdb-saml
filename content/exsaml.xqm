@@ -26,7 +26,64 @@ declare variable $exsaml:version := doc("../expath-pkg.xml")/*:package/@version/
 
 (: pull config from config-exsaml.xml :)
 (: NEED TO CHECK IF CONFIG EXISTS :)
-declare %private variable $exsaml:config   := doc("config-exsaml.xml")/config;
+
+declare %private function exsaml:resolve-value(
+    $value as xs:string?
+) as xs:string? {
+
+    if (matches($value, '^\$\{.+\}$')) then
+        let $prop-name :=
+            replace($value, '^\$\{(.+)\}$', '$1')
+        let $resolved :=
+            util:system-property($prop-name)
+        return
+            if (exists($resolved))
+            then $resolved
+            else error(
+                xs:QName("exsaml:MISSING-CONFIG"),
+                "Missing system property: " || $prop-name
+            )
+    else
+        $value
+};
+
+declare %private function exsaml:resolve-node(
+    $node as node()
+) as node() {
+
+    typeswitch($node)
+
+        case element()
+        return
+            element { node-name($node) } {
+
+                for $attr in $node/@*
+                return
+                    attribute { node-name($attr) } {
+                        exsaml:resolve-value(string($attr))
+                    },
+
+                for $child in $node/node()
+                return
+                    exsaml:resolve-node($child)
+            }
+
+        case text()
+        return
+            text {
+                exsaml:resolve-value(string($node))
+            }
+
+        default
+        return
+            $node
+};
+
+(: Resolve variables in config file if in format ${VAR} :)
+declare %private variable $exsaml:config :=
+    exsaml:resolve-node(
+        doc("config-exsaml.xml")/config
+    );
 
 declare %private variable $exsaml:sp-ent   := data($exsaml:config/sp/@entity);
 declare %private variable $exsaml:sp-uri   := data($exsaml:config/sp/@endpoint);
