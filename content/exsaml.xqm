@@ -32,17 +32,34 @@ declare %private function exsaml:resolve-value(
 ) as xs:string? {
 
     if (matches($value, '^\$\{.+\}$')) then
-        let $prop-name :=
+
+        let $content :=
             replace($value, '^\$\{(.+)\}$', '$1')
+
+        let $parts :=
+            tokenize($content, ':', 2)
+
+        let $prop-name :=
+            replace($content, ':.*$', '')
+
+        let $default :=
+            if (contains($content, ':'))
+            then replace($content, '^[^:]+:', '')
+            else ()
+
         let $resolved :=
             util:system-property($prop-name)
+
         return
             if (exists($resolved))
             then $resolved
+            else if (exists($default))
+            then $default
             else error(
                 xs:QName("exsaml:MISSING-CONFIG"),
                 "Missing system property: " || $prop-name
             )
+
     else
         $value
 };
@@ -115,7 +132,7 @@ declare %private variable $exsaml:fake-user   := data($exsaml:config/fake-idp/@u
 declare %private variable $exsaml:fake-group  := data($exsaml:config/fake-idp/@group);
 
 (: SAML specific constants and non-configurable vars :)
-declare %private variable $exsaml:saml-coll := "/db/system/repo/existdb-saml-1.7.0-SNAPSHOT";
+declare %private variable $exsaml:saml-coll := "/db/system/repo/existdb-saml-1.7.0-BSPP-SNAPSHOT";
 declare %private variable $exsaml:saml-coll-reqid := $exsaml:saml-coll || "/saml-request-ids";
 declare %private variable $exsaml:saml-version   := "2.0";
 declare %private variable $exsaml:status-success := "urn:oasis:names:tc:SAML:2.0:status:Success";

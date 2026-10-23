@@ -121,6 +121,12 @@ This can be populated like this:
 "JAVA_OPTS=-DSAML_SP_ENTITY=<...> -DSAML_SP_ENDPOINT=<...> -DSAML_SP_FALLBACK=<...>
 ```
 
+The config allows setting of a default value in combination with the variable name:
+
+```
+
+```
+
 ### Set Password for the `exsaml` DB User
 
 During installation of the existdb-saml package, a special DB user `exsaml`

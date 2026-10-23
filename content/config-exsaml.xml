@@ -33,7 +33,7 @@
     <!--   @certfile: required for XML signature validation if sig sent by IDP -->
     <!--   @verify-issuer: is a hack to deal with misconfigured IDPs -->
 
-    <idp entity="${SAML_IDP_ENTITY}" endpoint="${SAML_IDP_ENDPOINT}" accept-unsolicited="false" force-relaystate="false" certfile="/usr/local/existdb/exist/cert/sso-prod.crt" verify-issuer="true"/>
+    <idp entity="${SAML_IDP_ENTITY}" endpoint="${SAML_IDP_ENDPOINT}" accept-unsolicited="false" force-relaystate="false" certfile="${SAML_IDP_CERTFILE:/usr/local/existdb/exist/cert/sso-prod.crt}" verify-issuer="true"/>
 
     <!-- crypto settings -->
     <!--   @hmac-key: server-side secret key for HMACs -->
@@ -58,7 +58,7 @@
     <!--   @username: username of privileged user -->
     <!--   @username: username of privileged user -->
     <!--   @pass: plaintext password, WILL GO AWAY -->
-    <exsaml-creds username="exsaml" group="exsaml" pass="${SAML_EXSAML_PW}"/>
+    <exsaml-creds username="${SAML_EXSAML_USER:exsaml}" group="${SAML_EXSAML_GROUP:exsaml}" pass="${SAML_EXSAML_PW}"/>
 
     <!-- settings for dynamic user creation -->
     <!-- Since we are using a third party for authentication (SAML IDP), there
@@ -66,7 +66,7 @@
          be used to create local DB users on the fly, if required. -->
     <!--   @create: either "true" (create local DB users) or "false" (do not) -->
     <!--   @group: group membership for created users -->
-    <dynamic-users create="false"/>
+    <dynamic-users create="${SAML_DYNAMICUSERS:false}"/>
     <!-- dynamic-users create="true" group="sso-user"/ -->
 
     <!-- group-attribute -->
