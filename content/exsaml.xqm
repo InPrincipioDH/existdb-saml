@@ -158,7 +158,6 @@ declare function exsaml:generate-correlation-id() as xs:string {
  : @return true if SAML is enabled, false otherwise.
  :)
 declare function exsaml:is-enabled($cid as xs:string) {
-    let $log := util:log("INFO", $exsaml:config)
     let $result := $exsaml:config/@enabled eq "true"
     let $_ := exsaml:log("debug", $cid, "saml is-enabled: " || $result)
     return
