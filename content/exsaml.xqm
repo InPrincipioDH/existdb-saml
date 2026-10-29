@@ -93,7 +93,7 @@ declare %private function exsaml:resolve-node(
             $node
 };
 
-(: Resolve variables in config file if in format ${VAR} :)
+(: Resolve variables in config file if in format ${VAR:default} :)
 declare %private variable $exsaml:config :=
     exsaml:resolve-node(
         doc("config-exsaml.xml")/config
