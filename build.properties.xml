@@ -2,11 +2,11 @@
 <root>
   <app>
     <name>existdb-saml</name>
-    <description>SAML v2.0 Implementation in XQuery for eXist-db</description>
-    <version>1.7.0-SNAPSHOT</version>
+    <description>SAML v2.0 Implementation in XQuery for eXist-db. Fork of https://github.com/exist-db/existdb-saml</description>
+    <version>1.7.0-BSPP-SNAPSHOT</version>
     <url>http://exist-db.org/xquery/exsaml</url>
     <status>beta</status>
     <permissions>rwxr-xr-x</permissions>
-    <website>https://github.com/exist-db/existdb-saml</website>
+    <website>https://github.com/InPrincipioDH/existdb-saml</website>
   </app>
 </root>
