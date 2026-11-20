@@ -26,5 +26,5 @@ jobs:
         uses: actions/upload-artifact@v7.0.2
         with:
           name: application-xar
-          path: dist/*.xar
+          path: build/*.xar
           retention-days: 30
