@@ -2,8 +2,7 @@ name: build xar file
 on:
   push:
     branches:
-      - main
-      - master
+      - bspp
 jobs:
   build:
     runs-on: ubuntu-latest
